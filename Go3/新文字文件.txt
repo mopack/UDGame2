@@ -1,0 +1,37 @@
+https://stackoverflow.com/questions/8757389/reading-file-line-by-line-in-go
+http://wiki.jikexueyuan.com/project/the-way-to-go/12.1.html
+https://stackoverflow.com/questions/33766251/golang-os-stdin-as-a-reader-in-goroutines
+
+    inputReader = bufio.NewReader(os.Stdin)
+    fmt.Println("Please enter some input: ")
+    input, err = inputReader.ReadString('\n')
+    if err == nil {
+        fmt.Printf("The input was: %s\n", input)
+    }
+
+
+inputReader := bufio.NewReader(os.Stdin)
+input, err := inputReader.ReadString('\n')
+
+
+Yes, this is perfectly fine. So long as this is the only goroutine that is interacting with os.Stdin, everything will work properly.
+
+By the way, you may want to use bufio.Scanner - it's a bit nicer to work with than bufio.Reader:
+
+go func() {
+    consolescanner := bufio.NewScanner(os.Stdin)
+
+    // by default, bufio.Scanner scans newline-separated lines
+    for consolescanner.Scan() {
+        input := consolescanner.Text()
+        fmt.Println(input)
+    }
+
+    // check once at the end to see if any errors
+    // were encountered (the Scan() method will
+    // return false as soon as an error is encountered) 
+    if err := consolescanner.Err(); err != nil {
+         fmt.Println(err)
+         os.Exit(1)
+    }
+}()
