@@ -1,0 +1,11 @@
+cd C:\GitHub\Test
+websocketd --port=8080 --devconsole go main.go
+
+websocketd --port=8080 --devconsole lua greeter.lua
+websocketd --port=8080 --devconsole lua json_ws.lua
+
+websocketd --port=8080 lua greeter.lua
+
+
+
+websocketd --port=8080 bash count.sh

@@ -1,0 +1,10 @@
+var ws = new WebSocket('ws://udream-nb-0029:8080/');
+ws.onopen = function() {
+    console.log('CONNECT');
+};
+ws.onclose = function() {
+    console.log('DISCONNECT');
+};
+ws.onmessage = function(event) {
+    console.log('MESSAGE: ' + event.data);
+};
